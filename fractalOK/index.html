@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+	<head>
+      <title>L-Systems Turtle Graphics Renderer - HTML5 Canvas</title>
+      <script src="scripts/lsystems.js"></script>
+      <script async defer src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4e4813104686cad8"></script>
+      <script>
+   function openHelp()
+   {
+      document.getElementById("help").style.display = "block";
+   }
+   
+   function closeHelp()
+   {
+      document.getElementById("help").style.display = "none";
+   }
+      </script>
+      <style type="text/css">
+         body { background-color: #eeeeee; font-family: Arial, Helvetica; color: darkblue; font-size: 0.9em }
+         P { padding-left: 2em; padding-top: 0; line-height: 1.1em }
+         P.left { padding-left: 1em; line-height: 1.1em }
+         .small { text-align:center; font-size: 0.75em }
+         a, a:visited, a:active, a:hover { color: #000044 }
+         .example { border: 1px solid darkgrey; cursor: pointer }
+      </style>
+
+   </head>
+   
+   <body onload="onloadHandler();">
+      <div style="position:absolute;right:1em">
+         <!-- AddThis Button BEGIN -->
+         <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+         <a class="addthis_button_preferred_1"></a>
+         <a class="addthis_button_preferred_2"></a>
+         <a class="addthis_button_compact"></a>
+         <a class="addthis_counter addthis_bubble_style"></a>
+
+         </div>
+         <!-- AddThis Button END -->
+      </div>
+      <div style="width:680px">
+         <div style="float:right; height:790px; overflow-y: auto; overflow-x: hidden; padding-right: 18px">
+            <div style="height:20px;text-align:center">Examples</div>
+            <div>
+               <img onclick="example(0)" src="images/heighway_dragon.png" title="Heighway Dragon" width="120" height="120" class="example" />
+
+            </div>
+            <div>
+               <img onclick="example(2)" src="images/kevs_tree.png" title="Kevs Tree" width="120" height="120" class="example" />
+            </div>
+            <div>
+               <img onclick="example(3)" src="images/kevs_wispy_tree.png" title="Kevs Wispy Tree" width="120" height="120" class="example" />
+            </div>
+            <div>
+               <img onclick="example(4)" src="images/kevs_pond_weed.png" title="Kevs Pond Weed" width="120" height="120" class="example" />
+
+            </div>
+            <div>
+               <img onclick="example(8)" src="images/fractal_plant.png" title="Fractal Plant" width="120" height="120" class="example" />
+            </div>
+            <div>
+               <img onclick="example(1)" src="images/koch_curve.png" title="Koch Curve" width="120" height="120" class="example" />
+            </div>
+            <div>
+               <img onclick="example(5)" src="images/sip_triangle_curves.png" title="Sierpinski triangle (curves)" width="120" height="120" class="example" />
+
+            </div>
+            <div>
+               <img onclick="example(6)" src="images/sip_triangle_triangles.png" title="Sierpinski triangle (triangles)" width="120" height="120" class="example" />
+            </div>
+            <div>
+               <img onclick="example(7)" src="images/dragon_curve.png" title="Dragon Curve" width="120" height="120" class="example" />
+            </div>
+            <div>
+               <img onclick="example(9)" src="images/koch_snowflake.png" title="Koch Snowflake" width="120" height="120" class="example" />
+
+            </div>
+            <div>
+               <img onclick="example(10)" src="images/pleasant_error.png" title="Pleasant Error" width="120" height="120" class="example" />
+            </div>
+            <div>
+               <img onclick="example(11)" src="images/sierpinski_carpet.png" title="Sierpinski's Carpet" width="120" height="120" class="example" />
+            </div>
+            <div>
+               <img onclick="example(12)" src="images/space_filling_curve.png" title="Space Filling Curve" width="120" height="120" class="example" />
+
+            </div>
+            <div>
+               <img onclick="example(13)" src="images/sierpinski_median_curve.png" title="Sierpinski Median Curve" width="120" height="120" class="example" />
+            </div>
+            <div>
+               <img onclick="example(14)" src="images/lace.png" title="Lace" width="120" height="120" class="example" />
+            </div>
+            <div>
+               <img onclick="example(15)" src="images/joined_cross_curves.png" title="Joined Cross Curves" width="120" height="120" class="example" />
+
+            </div>
+            <div>
+               <img onclick="example(16)" src="images/penrose_tiling.png" title="Penrose Tiling" width="120" height="120" class="example" />
+            </div>
+         </div>
+         
+         <div id="help" style="display:none;left:100px;top:60px;width:480px;height:210px;position:absolute;background-color:#eeeeee;border: 2px solid grey;padding:12px;z-index:100">
+L-Systems, or <a href="http://en.wikipedia.org/wiki/L-system" target="new">Lindenmayer System</a> is a simple but elegant 'turtle' rendering platform.<br/><br/>
+
+The recursive nature of the L-system rules leads to self-similarity and thereby fractal-like forms which are easy to describe with an L-system. Plant models and natural-looking organic forms 'grow' and becomes more complex by increasing the iteration level of the form.<br/><br/>
+Click on the Examples to view some example and famous L-System patterns.<br/><br/>
+            <div style="text-align:center;font-size:75%">HTML5 + JavaScript Canvas Demo by Kevin Roast - <a href="http://twitter.com/kevinroast" target="new">follow me on Twitter</a>.</div><br/>
+            <div style="text-align:center"><a href="#" onclick="closeHelp()">CLOSE</a></div>
+         </div>
+         
+         <div id="lsystems" style="width:512px; float:left">
+            <div style="position:absolute;left:380px;top:32px">
+
+               <a href="#" onclick="openHelp()">What are L-Systems?</a>
+            </div>
+            <div style="position:absolute;left:338px;top:64px">
+               <a href="../index.html">More HTML5 Canvas demos</a>
+            </div>
+            <div style="float:right; display:none">
+               <input id="linewidths" type="checkbox" />
+               <label for="linewidths">Auto Line Width</label>
+
+            </div>
+            <div>
+               <table border="0" cellspacing="1" cellpadding="1">
+                  <tr>
+                     <td><span>Iterations:</span></td>
+                     <td><input id="iterations" type="text" value="12" style="width:4em" /></td>
+                  </tr>
+                  <tr>
+
+                     <td><span>Angle:</span></td>
+                     <td><input id="angle" type="text" value="90" style="width:4em" /></td>
+                  </tr>
+                  <tr>
+                     <td><span>Constants:</span></td>
+                     <td><input id="constants" type="text" value="" style="width:12em" /></td>
+                  </tr>
+                  <tr>
+
+                     <td><span>Axoim:</span></td>
+                     <td><input id="axiom" type="text" value="FX" style="width:12em"/></td>
+                  </tr>
+                  <tr>
+                     <td><span>Rule1:</span></td>
+                     <td><input id="rule1" type="text" value="X=X+YF+" style="width:30em" /></td>
+                  </tr>
+                  <tr>
+
+                     <td><span>Rule2:</span></td>
+                     <td><input id="rule2" type="text" value="Y=-FX-Y" style="width:30em" /></td>
+                  </tr>
+                  <tr>
+                     <td><span>Rule3:</span></td>
+                     <td><input id="rule3" type="text" value="" style="width:30em" /></td>
+                  </tr>
+                  <tr>
+
+                     <td><span>Rule4:</span></td>
+                     <td><input id="rule4" type="text" value="" style="width:30em" /></td>
+                  </tr>
+                  <tr>
+                     <td><span>Rule5:</span></td>
+                     <td><input id="rule5" type="text" value="" style="width:30em" /></td>
+                  </tr>
+                  <tr>
+
+                     <td colspan="2"><input id="start" type="button" value="Start" onclick="startHandler()"/></td>
+                  </tr>
+               </table>
+            </div>
+            
+            <div id="status" style="padding:4px;font-family:courier new">Press Start to begin.</div>
+            
+            <div style="background-color: white; border: 1px solid grey; display: inline-block"><canvas id="canvas" width="512" height="512"></canvas></div>
+            
+         </div>
+      </div>
+
+      
+   </body>
+</html>
