@@ -4,80 +4,20 @@
     <script language="JavaScript" type="text/javascript" src="js/jquey/jquery164.js"></script>
     <script language="JavaScript" type="text/javascript" src="js/fractal.js"></script>
     <body>
-
-
-      <input id="linewidths" type="checkbox" />
-
       <div style="width:680px">
-
         <div id="lsystems" style="width:512px; float:left">
-          <div style="position:absolute;left:380px;top:32px">
-
-            <a href="#" onclick="openHelp()">What are L-Systems?</a>
-          </div>
-          <div style="position:absolute;left:338px;top:64px">
-            <a href="../index.html">More HTML5 Canvas demos</a>
-          </div>
-
-
-
-
           <div>
             <table border="0" cellspacing="1" cellpadding="1">
               <tr>
-                <td><span>Iterations:</span></td>
-                <td><input id="iterations" type="text" value="12" style="width:4em" /></td>
-              </tr>
-              <tr>
-
-                <td><span>Angle:</span></td>
-                <td><input id="angle" type="text" value="90" style="width:4em" /></td>
-              </tr>
-              <tr>
-                <td><span>Constants:</span></td>
-                <td><input id="constants" type="text" value="" style="width:12em" /></td>
-              </tr>
-              <tr>
-
-                <td><span>Axoim:</span></td>
-                <td><input id="axiom" type="text" value="FX" style="width:12em"/></td>
-              </tr>
-              <tr>
-                <td><span>Rule1:</span></td>
-                <td><input id="rule1" type="text" value="X=X+YF+" style="width:30em" /></td>
-              </tr>
-              <tr>
-
-                <td><span>Rule2:</span></td>
-                <td><input id="rule2" type="text" value="Y=-FX-Y" style="width:30em" /></td>
-              </tr>
-              <tr>
-                <td><span>Rule3:</span></td>
-                <td><input id="rule3" type="text" value="" style="width:30em" /></td>
-              </tr>
-              <tr>
-
-                <td><span>Rule4:</span></td>
-                <td><input id="rule4" type="text" value="" style="width:30em" /></td>
-              </tr>
-              <tr>
-                <td><span>Rule5:</span></td>
-                <td><input id="rule5" type="text" value="" style="width:30em" /></td>
-              </tr>
-              <tr>
-
-                <td colspan="2"><input id="start" type="button" value="Start" onclick="startHandler()"/></td>
+                <td colspan="2"><input id="start" type="button" value="Start" onclick="generate(2)"/></td>
+                <td colspan="2"><input id="next" type="button" value="Next" onclick="stepForward()"/></td>
               </tr>
             </table>
           </div>
-
           <div id="status" style="padding:4px;font-family:courier new">Press Start to begin.</div>
-
-          <canvas id="canvas" width="512" height="512"></canvas>
-
+          <canvas id="canvas" width="128" height="128"></canvas>
         </div>
       </div>
-
 
     </body>
   </html>

@@ -16,7 +16,11 @@ var HEIGHT;
 var WIDTH;
 var g_renderer;
 var g_commands;
-
+var iterations;
+var axiom;
+var rules = [];
+var angle;
+var constants;
 /**
  * Window body onload handler
  */
@@ -56,7 +60,7 @@ function startHandler()
 
   document.getElementById('start').disabled = true;
   document.getElementById('lsystems').style.cursor = "wait";
-
+  
   executeDelayedFunction("generateCmdString();", "Generating command string...");
 
 
@@ -71,11 +75,11 @@ function generateCmdString()
   try
   {
     var lsys = new LSystems.LSystemsProcessor();
-    lsys.iterations = 2;
-    lsys.axiom = document.getElementById('axiom').value;
-    for (var i=1; i<=5; i++)
+    lsys.iterations = iterations;
+    lsys.axiom = /*document.getElementById('axiom').value;*/ axiom;
+    for (var i=0; i<5; i++)
     {
-      var rule = document.getElementById('rule' + i).value;
+      var rule = /*document.getElementById('rule' + i).value;*/ rules[i];
       if (rule && rule.length !== 0)
       {
         lsys.addRule(rule);
@@ -102,9 +106,9 @@ function calcOffsets()
   {
     // calc offset bounding box before render
     g_renderer = new LSystems.TurtleRenderer(WIDTH, HEIGHT);
-    g_renderer.setAngle(parseInt(document.getElementById('angle').value));
-    g_renderer.setConstants(document.getElementById('constants').value);
-    g_renderer.setRenderLineWidths(document.getElementById('linewidths').checked);
+    g_renderer.setAngle( /*parseInt(document.getElementById('angle').value)*/ angle);
+    g_renderer.setConstants(/*document.getElementById('constants').value*/ constants);
+    //g_renderer.setRenderLineWidths(document.getElementById('linewidths').checked);
     var before = new Date();
     g_renderer.process(g_commands, false);
     var after = new Date();
@@ -150,7 +154,7 @@ function renderCmds()
 
     // reprocess...
     g_renderer.setOffsets(xoffset, yoffset);
-    g_renderer.setAngle(parseInt(document.getElementById('angle').value));
+    g_renderer.setAngle(/*parseInt(document.getElementById('angle').value)*/ angle);
     g_renderer.setDistance(newDistance);
     var before = new Date();
     g_renderer.process(g_commands, true);
@@ -180,20 +184,46 @@ function updateStatus(msg)
   document.getElementById('status').innerHTML = msg;
 }
 
-// Sierpinski triangle (triangles)      6, 120, "", "F-G-G", "F=F-G+F+G-F", "G=GG"
+var fractals =
+[
+  [
+  // Koch Curve
+  0, 90, "", "-F", "F=F+F-F-F+F"
+  ],
+  [
+  // Sierpinski triangle (triangles)
+  0, 120, "", "F-G-G", "F=F-G+F+G-F", "G=GG"
+  ],
+  [
+  // Koch Snowflake
+  0, 60, "X", "F++F++F", "F=F-F++F-F", "X=FF"
+  ],
+];
 
-function example(i)
+function stepForward() {
+  document.getElementById('start').value = "Reset";
+  iterations++;
+  startHandler();
+}
+
+function reset() {
+  document.getElementById('start').value = "Start";
+  document.getElementById('canvas').value = "";
+  iterations = 0;
+  //startHandler();
+}
+
+function generate(i)
 {
   if (!document.getElementById('start').disabled)
   {
-    document.getElementById('iterations').value = examples[i][0];
-    document.getElementById('angle').value = examples[i][1];
-    document.getElementById('constants').value = examples[i][2];
-    document.getElementById('axiom').value = examples[i][3];
-    for (var n=1; n<=5; n++)
+    iterations = fractals[i][0];
+    angle = fractals[i][1];
+    constants = fractals[i][2];
+    axiom = fractals[i][3]
+    for (var n=0; n<5; n++)
     {
-      var rule = examples[i][3 + n];
-      document.getElementById('rule' + n).value = (rule ? rule : "");
+      rules[n] = fractals[i][4 + n];
     }
     startHandler();
   }
@@ -651,7 +681,7 @@ LSystems.LSystemsProcessor.prototype =
     var result = null;
 
     // process for each iteration
-    for (var i = 0; i < this.iterations; i++)
+    for (var i = 0; i <= this.iterations; i++)
     {
       if (i == 0)
       {
