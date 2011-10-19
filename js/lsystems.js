@@ -58,10 +58,10 @@ function startHandler()
   HEIGHT = canvas.height;
   WIDTH = canvas.width;
 
-  document.getElementById('start').disabled = true;
-  document.getElementById('lsystems').style.cursor = "wait";
-  
-  executeDelayedFunction("generateCmdString();", "Generating command string...");
+  // document.getElementById('start').disabled = true;
+  // document.getElementById('lsystems').style.cursor = "wait";
+
+  executeDelayedFunction("generateCmdString();", "");
 
 
 }
@@ -91,7 +91,7 @@ function generateCmdString()
     g_commands = lsys.generate();
     var after = new Date();
 
-    executeDelayedFunction("calcOffsets();", "Commands: " + g_commands.length + " in " + (after - before) + "ms. Calculating offsets...");
+    executeDelayedFunction("calcOffsets();", "");
   }
   catch (e)
   {
@@ -113,7 +113,7 @@ function calcOffsets()
     g_renderer.process(g_commands, false);
     var after = new Date();
 
-    executeDelayedFunction("renderCmds();", "Calculated boundry in " + (after - before) + "ms. Rendering...");
+    executeDelayedFunction("renderCmds();", "");
   }
   catch (e)
   {
@@ -161,7 +161,7 @@ function renderCmds()
     var after = new Date();
 
     // completed
-    resetUI("Finished rendering in " + (after - before) + "ms.");
+    // resetUI("Finished rendering in " + (after - before) + "ms.");
   }
   catch (e)
   {
@@ -175,13 +175,13 @@ function resetUI(msg)
   g_renderer = null;
   g_commands = null;
   updateStatus(msg);
-  document.getElementById('lsystems').style.cursor = "";
-  document.getElementById('start').disabled = false;
+  // document.getElementById('lsystems').style.cursor = "";
+  // document.getElementById('start').disabled = false;
 }
 
 function updateStatus(msg)
 {
-  document.getElementById('status').innerHTML = msg;
+ // document.getElementById('status').innerHTML = msg;
 }
 
 var fractals =
@@ -200,23 +200,12 @@ var fractals =
   ],
 ];
 
-function stepForward() {
-  document.getElementById('start').value = "Reset";
-  iterations++;
-  startHandler();
-}
-
-function reset() {
-  document.getElementById('start').value = "Start";
-  document.getElementById('canvas').value = "";
-  iterations = 0;
-  //startHandler();
-}
-
 function generate(i)
 {
-  if (!document.getElementById('start').disabled)
-  {
+//  if (!document.getElementById('start').disabled)
+//  {
+ console.log(fractals[i]);
+ console.log(i);
     iterations = fractals[i][0];
     angle = fractals[i][1];
     constants = fractals[i][2];
@@ -226,7 +215,7 @@ function generate(i)
       rules[n] = fractals[i][4 + n];
     }
     startHandler();
-  }
+//  }
 }
 
 
@@ -497,7 +486,7 @@ LSystems.TurtleRenderer.prototype =
 
       // clear the background
       ctx.save();
-      ctx.fillStyle = "rgb(255,255,255)";
+      ctx.fillStyle = "rgba(255, 255, 255, 0)";
       ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
       // offset as required

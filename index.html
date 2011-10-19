@@ -1,23 +1,27 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <script src="js/lsystems.js"></script>
-    <script language="JavaScript" type="text/javascript" src="js/jquey/jquery164.js"></script>
-    <script language="JavaScript" type="text/javascript" src="js/fractal.js"></script>
-    <body>
-      <div style="width:680px">
-        <div id="lsystems" style="width:512px; float:left">
-          <div>
-            <table border="0" cellspacing="1" cellpadding="1">
-              <tr>
-                <td colspan="2"><input id="start" type="button" value="Start" onclick="generate(2)"/></td>
-                <td colspan="2"><input id="next" type="button" value="Next" onclick="stepForward()"/></td>
-              </tr>
-            </table>
-          </div>
-          <div id="status" style="padding:4px;font-family:courier new">Press Start to begin.</div>
-          <canvas id="canvas" width="128" height="128"></canvas>
-        </div>
-      </div>
-
-    </body>
-  </html>
+    <script src="js/fractal.js"></script>
+    <link rel="stylesheet" href="css/layout.css" />
+  </head>
+  <body>
+    <div id="div_table">
+      <table>
+        <tr>
+          <th>Iteracao</th>
+          <th>Fractal</th>
+          <th>Lado</th>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td>
+            <canvas id="canvas" width="128" height="128"></canvas>
+          </td>
+          <td>0</td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
