@@ -3,188 +3,9 @@
  *
  * JavaScript Canvas 04/03/09
  * @author Kevin Roast  kevtoast at yahoo.com
- *
- * TODO:
- * . more colour options
- * . inc/dec iterations buttons
  */
 
-/**
- * Globals and helper functions
- */
-var HEIGHT;
-var WIDTH;
-var g_renderer;
-var g_commands;
-var iterations;
-var axiom;
-var rules = [];
-var angle;
-var constants;
-/**
- * Window body onload handler
- */
-function onloadHandler()
-{
-  // bind ENTER key handler to Start button
-  document.onkeyup = function(event)
-  {
-    var keyCode = (event === null ? window.event.keyCode : event.keyCode);
-
-    if (keyCode === 13)
-    {
-      startHandler();
-    }
-  };
-}
-
-/**
- * Helper to execute a function after a small delay - to give browser time to update window
- */
-function executeDelayedFunction(sfn, status)
-{
-  updateStatus(status);
-  setTimeout(sfn, 150);
-}
-
-/**
- * Form button Start handler
- */
-function startHandler()
-{
-
-  var canvas = document.getElementById('canvas');
-
-  HEIGHT = canvas.height;
-  WIDTH = canvas.width;
-
-  // document.getElementById('start').disabled = true;
-  // document.getElementById('lsystems').style.cursor = "wait";
-
-  executeDelayedFunction("generateCmdString();", "");
-
-
-}
-
-/**
- * L-Systems processing steps
- */
-function generateCmdString()
-{
-  // collect up Form input data required by the processor
-  try
-  {
-    var lsys = new LSystems.LSystemsProcessor();
-    lsys.iterations = iterations;
-    lsys.axiom = /*document.getElementById('axiom').value;*/ axiom;
-    for (var i=0; i<5; i++)
-    {
-      var rule = /*document.getElementById('rule' + i).value;*/ rules[i];
-      if (rule && rule.length !== 0)
-      {
-        lsys.addRule(rule);
-      }
-    }
-
-    // generate the cmd string
-    var before = new Date();
-    g_commands = lsys.generate();
-    var after = new Date();
-
-    executeDelayedFunction("calcOffsets();", "");
-  }
-  catch (e)
-  {
-    alert("Error during LSystemsProcessor.generate()\n" + e);
-    resetUI("Press Start to begin.");
-  }
-}
-
-function calcOffsets()
-{
-  try
-  {
-    // calc offset bounding box before render
-    g_renderer = new LSystems.TurtleRenderer(WIDTH, HEIGHT);
-    g_renderer.setAngle( /*parseInt(document.getElementById('angle').value)*/ angle);
-    g_renderer.setConstants(/*document.getElementById('constants').value*/ constants);
-    //g_renderer.setRenderLineWidths(document.getElementById('linewidths').checked);
-    var before = new Date();
-    g_renderer.process(g_commands, false);
-    var after = new Date();
-
-    executeDelayedFunction("renderCmds();", "");
-  }
-  catch (e)
-  {
-    alert("Error during TurtleRenderer.process()\n" + e);
-    resetUI("Press Start to begin.");
-  }
-}
-
-function renderCmds()
-{
-  try
-  {
-    // calc new distance based on screen res
-    var oldDistance = 10.0;
-    var newDistance;
-    var dim = g_renderer.getMinMaxValues();;
-    if (dim.maxx - dim.minx > dim.maxy - dim.miny)
-    {
-      // X has the largest delta - use that
-      newDistance = (WIDTH / (dim.maxx - dim.minx)) * oldDistance;
-    }
-    else
-    {
-      // Y has the largest delta - use that
-      newDistance = (HEIGHT / (dim.maxy - dim.miny)) * oldDistance;
-    }
-
-    // calc rendering offsets
-
-    // scale min/max values by new distance
-    dim.minx *= (newDistance / oldDistance);
-    dim.maxx *= (newDistance / oldDistance);
-    dim.miny *= (newDistance / oldDistance);
-    dim.maxy *= (newDistance / oldDistance);
-
-    var xoffset = (WIDTH / 2) - (((dim.maxx - dim.minx) / 2) + dim.minx);
-    var yoffset = (HEIGHT / 2) - (((dim.maxy - dim.miny) / 2) + dim.miny);
-
-    // reprocess...
-    g_renderer.setOffsets(xoffset, yoffset);
-    g_renderer.setAngle(/*parseInt(document.getElementById('angle').value)*/ angle);
-    g_renderer.setDistance(newDistance);
-    var before = new Date();
-    g_renderer.process(g_commands, true);
-    var after = new Date();
-
-    // completed
-    // resetUI("Finished rendering in " + (after - before) + "ms.");
-  }
-  catch (e)
-  {
-    alert("Error during TurtleRenderer.process(draw)\n" + e);
-    resetUI("Press Start to begin.");
-  }
-}
-
-function resetUI(msg)
-{
-  g_renderer = null;
-  g_commands = null;
-  updateStatus(msg);
-  // document.getElementById('lsystems').style.cursor = "";
-  // document.getElementById('start').disabled = false;
-}
-
-function updateStatus(msg)
-{
- // document.getElementById('status').innerHTML = msg;
-}
-
-var fractals =
+ var fractals =
 [
   [
   // Koch Curve
@@ -199,25 +20,6 @@ var fractals =
   0, 60, "X", "F++F++F", "F=F-F++F-F", "X=FF"
   ],
 ];
-
-function generate(i)
-{
-//  if (!document.getElementById('start').disabled)
-//  {
- console.log(fractals[i]);
- console.log(i);
-    iterations = fractals[i][0];
-    angle = fractals[i][1];
-    constants = fractals[i][2];
-    axiom = fractals[i][3]
-    for (var n=0; n<5; n++)
-    {
-      rules[n] = fractals[i][4 + n];
-    }
-    startHandler();
-//  }
-}
-
 
 /**
  * LSystems root namespace.
@@ -247,7 +49,7 @@ const RAD = Math.PI/180.0;
  */
 (function()
  {
-   LSystems.TurtleRenderer = function(width, height)
+   LSystems.TurtleRenderer = function(canvas, width, height)
 {
   if (width !== undefined && width !== null)
 {
@@ -257,6 +59,11 @@ if (height !== undefined && height !== null)
 {
   this._height = height;
 }
+if (canvas !== undefined && canvas !== null)
+{
+  this._canvas = canvas;
+}
+
 
 this._colourList = ["rgba(140, 80, 60, 0.75)", "rgba(24, 180, 24, 0.75)", "rgba(48, 220, 48, 0.5)", "rgba(64, 255, 64, 0.5)"];
 this._constants = [];
@@ -481,13 +288,12 @@ LSystems.TurtleRenderer.prototype =
 
     if (draw)
     {
-      var canvas = document.getElementById('canvas');
-      var ctx = canvas.getContext('2d');
+      var ctx = this._canvas.getContext('2d');
 
       // clear the background
       ctx.save();
       ctx.fillStyle = "rgba(255, 255, 255, 0)";
-      ctx.fillRect(0, 0, WIDTH, HEIGHT);
+      ctx.fillRect(0, 0, this._width, this._height);
 
       // offset as required
       ctx.translate(this._xOffset, 0);
@@ -568,8 +374,8 @@ LSystems.TurtleRenderer.prototype =
                   ctx.strokeStyle = colour;
                 }
                 ctx.beginPath();
-                ctx.moveTo(lastX, HEIGHT - (lastY + yOffset));
-                ctx.lineTo(pos.x, HEIGHT - (pos.y + yOffset));
+                ctx.moveTo(lastX, this._height - (lastY + yOffset));
+                ctx.lineTo(pos.x, this._height - (pos.y + yOffset));
                 ctx.closePath();
                 ctx.stroke();
               }
