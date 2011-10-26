@@ -1,0 +1,13 @@
+db/schema.rb
+config/database.yml
+tmp/*
+log/*
+.DS_Store
+config/deploy.rb
+*.sqlite3
+*~
+.\#*
+\#**\#
+.*.sw[op]
+.sw[op]
+.sass-cache/

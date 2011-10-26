@@ -303,7 +303,7 @@ LSystems.TurtleRenderer.prototype =
     }
 
     // start at grid 0,0 facing north with no colour index
-    var pos = new LSystems.Location(0.0, 0.0, 90.0, -1);
+    var pos = new LSystems.Location(0.0, 0.0, 180.0, -1);
 
     // process each command in turn
     var yOffset = this._yOffset, maxStackDepth = this._maxStackDepth;
