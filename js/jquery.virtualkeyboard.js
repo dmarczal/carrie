@@ -21,7 +21,7 @@
   function VirtualKeyboard() {
     this.canvas = $('<canvas/>').attr  ({width: 100, height: 100});
     this.context = this.canvas[0].getContext('2d');
-    this.text = '';
+    this.expression = new Expression();
 
     /*
      *
@@ -41,7 +41,7 @@
       var content = $('<div/>');
       for (var i = 0; i < 10; i++) {
         var button = $('<button/>').text(i);
-        button.click(this, this.putNumber);
+        button.click(this, this.add);
         content.append(button);
         if ((i % 3) == 2) {
           content.append($('<br/>'));
@@ -57,6 +57,7 @@
     this.createOperationsButtons = function() {
       var content = $('<div/>');
       var plus = $('<button/>').text('+');
+      plus.click(this, this.add);
       content.append(plus);
       return content;
     }
@@ -65,8 +66,8 @@
      *
      * Refrão de um bolero - Engenheiros do Hawaii
      */
-    this.putNumber = function(e) {
-      e.data.text += $(this).text();
+    this.add = function(e) {
+      e.data.expression.add($(this).text());
       e.data.redraw();
     }
 
@@ -78,9 +79,36 @@
       this.context.fillStyle = "white";
       this.context.fillRect(0, 0, this.canvas.attr('width'), this.canvas.attr('height'));
       this.context.fillStyle = "black";
-      this.context.fillText(this.text, 5, 20);
+      this.context.fillText(this.expression.toString(), 5, 20);
     }
 
     this.init();
   }
 })(jQuery);
+
+function Expression() {
+  this.left  = '';
+  this.op    = '';
+  this.right = '';
+
+  this.add = function(value) {
+    var expression;
+    
+    if (/[0-9]/.test(value)) {
+      if (this.op == '')
+        this.left += value;
+      else
+        this.right += value;
+    }
+    else if (/[\+\-\*\/]/.test(value)) {
+      this.op = value;
+    }
+  }
+
+  this.toString = function() {
+    return this.left + this.op + this.right;
+  }
+
+  this.init = function () {
+  }
+}
