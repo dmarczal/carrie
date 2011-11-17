@@ -57,8 +57,13 @@
     this.createOperationsButtons = function() {
       var content = $('<div/>');
       var plus = $('<button/>').text('+');
+      var parentheses = $('<button/>').text('()');
+      
       plus.click(this, this.add);
+      parentheses.click(this, this.add);
+      
       content.append(plus);
+      content.append(parentheses);
       return content;
     }
 
@@ -67,7 +72,13 @@
      * Refrão de um bolero - Engenheiros do Hawaii
      */
     this.add = function(e) {
-      e.data.expression.add($(this).text());
+      console.log($(this).text());
+      if (!e.data.expression.add($(this).text())) {
+        var expression = new Expression();
+        expression.left = e.data.expression;
+        e.data.expression = expression;
+        e.data.expression.add($(this).text());
+      }
       e.data.redraw();
     }
 
@@ -86,29 +97,3 @@
   }
 })(jQuery);
 
-function Expression() {
-  this.left  = '';
-  this.op    = '';
-  this.right = '';
-
-  this.add = function(value) {
-    var expression;
-    
-    if (/[0-9]/.test(value)) {
-      if (this.op == '')
-        this.left += value;
-      else
-        this.right += value;
-    }
-    else if (/[\+\-\*\/]/.test(value)) {
-      this.op = value;
-    }
-  }
-
-  this.toString = function() {
-    return this.left + this.op + this.right;
-  }
-
-  this.init = function () {
-  }
-}
