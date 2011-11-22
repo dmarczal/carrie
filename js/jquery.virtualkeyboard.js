@@ -21,7 +21,8 @@
   function VirtualKeyboard() {
     this.canvas = $('<canvas/>').attr  ({width: 100, height: 100});
     this.context = this.canvas[0].getContext('2d');
-    this.expression = new Expression();
+//    this.expression = new Expression();
+    this.expression = new CowTree();
 
     /*
      *
@@ -57,12 +58,21 @@
     this.createOperationsButtons = function() {
       var content = $('<div/>');
       var plus = $('<button/>').text('+');
+      var minus = $('<button/>').text('-');
+      var times = $('<button/>').text('x');
+      var fraction = $('<button/>').text('÷');
       var parentheses = $('<button/>').text('()');
       
       plus.click(this, this.add);
+      minus.click(this, this.add);
+      times.click(this, this.add);
+      fraction.click(this, this.add);
       parentheses.click(this, this.add);
       
       content.append(plus);
+      content.append(minus);
+      content.append(times);
+      content.append(fraction);
       content.append(parentheses);
       return content;
     }
@@ -72,12 +82,12 @@
      * Refrão de um bolero - Engenheiros do Hawaii
      */
     this.add = function(e) {
-      console.log($(this).text());
-      if (!e.data.expression.add($(this).text())) {
-        var expression = new Expression();
-        expression.left = e.data.expression;
-        e.data.expression = expression;
-        e.data.expression.add($(this).text());
+//      console.log($(this).text());
+      if ($(this).text() == '÷') {
+        e.data.expression.insert('/');  
+      }
+      else {
+        e.data.expression.insert($(this).text());      
       }
       e.data.redraw();
     }
