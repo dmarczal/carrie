@@ -78,7 +78,7 @@ function CowTree(node) {
     }
 
     this.toString = function() {
-        console.log(this.printPreOrder(this.root));
+        return this.printPreOrder(this.root);
     }
 
     this.printPreOrder = function(node) {
