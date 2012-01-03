@@ -1,0 +1,187 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- (c) 2006-2011 Andre Massow britnex@gmail.com -->
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcut icon" href="http://cdn.web2.0calc.com/img/favicon.ico" type="image/x-ico; charset=binary" />
+	<link rel="icon" href="http://cdn.web2.0calc.com/img/favicon.ico" type="image/x-ico; charset=binary" />
+	<title>Minimal</title>
+	<meta name="generator" content="0calc" />
+	<meta name="description" content="Free Online Scientific Notation Calculator. Solve advanced problems in Physics, Mathematics and Engineering. Math Expression Renderer, Plots, Unit Converter, Equation Solver, Complex Numbers, Calculation History." />
+	<meta name="author" content="Andre Massow" />
+	<meta name="keywords" content="web2.0, online, calculator, calc, tool" />
+	<meta name="viewport" content="width=900,initial-scale=0.90" />
+	<link rel="stylesheet" type="text/css" href="../css/stylesheet.v1.css" media="all" />
+	<script type="text/javascript" src="../js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="../js/web2.0calc.v3.js"></script>
+
+	<style type="text/css">
+	html
+	{
+		overflow: hidden;
+	}
+	body
+	{
+		overflow: hidden;
+	}
+	div.center {
+		border-radius: 0 0 0 0;
+		border-style: solid;
+		border-width: 0;
+		margin: 0 auto;
+		overflow: hidden;
+		width: 100%;
+		min-width: 50px;
+		resize: none;
+	}
+	div.center div.bg {
+		border-radius: 0 0 0 0;
+		padding: 6px;
+	}
+	div.display {
+		min-height: 115px;
+		overflow-x: auto;
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+	div.history div.input {
+		left: 111px;
+		top: -29px;
+	}
+	div.history {
+		width: 99%;
+		display: none;
+	}
+	div.helper {
+		display: none;
+	}
+	footer p {
+		display: none;
+	}
+	footer p a {
+		color: #8BA6BC;
+	}
+	a.favicon
+	{
+		position: fixed;
+		top: 0px;
+		left: 0px;
+	}
+	div.center a.create
+	{
+		display: none;
+	}
+	div.options {
+		position: fixed;
+		right: 3px;
+		top: 0;
+		padding-top: 0;
+	}
+	label.option .label {
+		color: #aaa
+	}
+	.btns {
+		max-width: 2000px;
+		overflow: hidden;
+		resize: none;
+	}
+	.center
+	{
+		bottom: 0px;
+	}
+	.table.num
+	{
+		width: 100%;
+	}
+	label.option .label {
+		font-size: 7pt;
+	}
+	</style>
+	<script type="text/javascript">
+	minDisplayHeight = 115;
+	</script>
+</head>
+<body>
+
+<div class="center deg" id="center">
+	<div class="bg">
+
+	<div class="inputs">
+
+	<div class="plotinput invisible" id="plotinput"></div>
+	<div class="solveinput invisible" id="solveinput"></div>
+	<div class="matrixinput invisible" id="matrixinput"></div>
+	<div class="unitsinput invisible" id="unitsinput"></div>
+
+	<input onfocus="makeInput(this);$(document).unbind('keypress')" onblur="$(document).keypress(onKey)" tabindex="1" type="text" onkeypress="if (event.keyCode==13) { equal(); return false; }" onkeyup="if (event.keyCode==27) clearall(); if (!event.shiftKey) { if ((event.keyCode==40 || event.keyCode==38)) historyScroll(event.keyCode==40); else {  } } inputKeyChange();" onkeydown="if (event.keyCode==110) { ins('.'); return false; }; if (checksyntax)checksyntax(false);" class="input" id="input" name="input" autocomplete="off" />
+</div>
+
+<div class="btns">
+
+	<div class="table num">
+	<ul class="row head">
+	<li class="op"><a id="cmd_percent" onmousedown="ins('%')" class="btn" title="Percent, x%">%</a></li>
+	<li class="op"><a id="cmd_fac" onmousedown="cmd('faculty')" class="btn" title="Factorial, x!  Example: 5!">!</a></li>
+	<li class="sp"> </li>
+	<li><a id="paranl" onmousedown="paranl()" class="btn" title="(">(</a></li>
+	<li><a id="ins_colon" onmousedown="ins(', ')" class="btn" title=", ">,</a></li>
+	<li><a id="paranr" onmousedown="paranr()" class="btn" title=")">)</a></li>
+	<li class="sp"> </li>
+	<li><a id="cmd_mod" onmousedown="ins(' mod ')" class="btn" title="Modulo, x mod y  Example: 123^345 mod 127">mod</a></li>
+	<li><a id="cmd_undo" onmousedown="doundo()" class="btn" title="Undo">&#8592;</a></li>
+</ul>
+<ul class="row">
+	<li class="op"><a id="cmd_sqrt" onmousedown="cmd('sqrt')" class="btn" title="Square Root of Number x, sqrt(x)"><span class="v">&#8730;</span>x</a></li>
+	<li class="op"><a id="cmd_x2" onmousedown="cmd('x^2')" class="btn" title="x^2">x<sup>2</sup></a></li>
+	<li class="sp"> </li>
+	<li><a id="num7" class="btn" title="" onmousedown="ins('7')" ><span>7</span></a></li>
+	<li><a id="num8" class="btn" title="" onmousedown="ins('8')" ><span>8</span></a></li>
+	<li><a id="num9" class="btn" title="" onmousedown="ins('9')" ><span>9</span></a></li>
+	<li class="sp"> </li>
+	<li><a id="op_div" class="btn" title="" onmousedown="setoperation('/')" >&#247;</a></li>
+	<li><a id="cmd_clr" class="btn" onmousedown="clearall()" title="Clear" >C</a></li>
+</ul>
+<ul class="row">
+	<li class="op"><a id="A27" onmousedown="cmd('sqrty')" class="btn" title="y-th Root of Number x, sqrt(x, y)"><sup>y</sup>&#8730;x</a></li>
+	<li class="op"><a id="A26" onmousedown="setoperation('^')" class="btn" title="Raise to Higher Power, x^y">x<sup>y</sup></a></li>
+	<li class="sp"> </li>
+	<li><a id="num_4" class="btn" title="" onmousedown="ins('4')" ><span>4</span></a></li>
+	<li><a id="num_5" class="btn" title="" onmousedown="ins('5')" ><span>5</span></a></li>
+	<li><a id="num_6" class="btn" title="" onmousedown="ins('6')" ><span>6</span></a></li>
+	<li class="sp"> </li>
+	<li><a id="op_mult" class="btn" title="" onmousedown="setoperation('*')" >&#215;</a></li>
+	<li> </li>
+</ul>
+<ul class="row">
+	<li class="op"><a id="A36" onmousedown="cmd('exp')" class="btn" title="Exponential Function, exp(x), e^x">e<sup>x</sup></a></li>
+	<li class="op"><a id="A37" onmousedown="cmd('ln')" class="btn" title="Logarithm of Number x to Base e, ln(x)">ln</a></li>
+	<li class="sp"> </li>
+	<li><a id="num_1" class="btn" title="" onmousedown="ins('1')" ><span>1</span></a></li>
+	<li><a id="num_2" class="btn" title="" onmousedown="ins('2')" ><span>2</span></a></li>
+	<li><a id="num_3" class="btn" title="" onmousedown="ins('3')" ><span>3</span></a></li>
+	<li class="sp"> </li>
+	<li><a id="op_sub" class="btn" title="" onmousedown="setoperation('-')" >-</a></li>
+	<li> </li>
+</ul>
+<ul class="row">
+	<li class="op"><a id="A38" onmousedown="cmd('10^x')" class="btn" title="10^x">10<sup>x</sup></a></li>
+	<li class="op"><a id="A39" onmousedown="cmd('log')" class="btn" title="Logarithm of Number x to Base 10, log(x)">log</a></li>
+	<li class="sp"> </li>
+	<li><a id="num_0" class="btn" onmousedown="ins('0')"><span>0</span></a></li>
+	<li><a id="op_sign" class="btn" onmousedown="sign()" ><span>&#177;</span></a></li>
+	<li><a id="cmd_dot" class="btn" onmousedown="ins('.')" ><span>.</span></a></li>
+	<li class="sp"> </li>
+	<li><a id="A42" class="btn" title="" onmousedown="setoperation('+')" >+</a></li>
+	<li class="eq"><a id="btn_equal" class="btn eq" title="" onmousedown="equal()">=</a></li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
