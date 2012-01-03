@@ -27,6 +27,7 @@ body {
 a {color:#666;}
 
 #content {width:65%; max-width:690px; margin:6% auto 0;}
+#resp-inv {visibility:none;}
 
 /*
 Pretty Table Styling

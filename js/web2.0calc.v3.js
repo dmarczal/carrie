@@ -64,14 +64,14 @@ function equal() {
     histories.unshift(inputstr);
 
     // request = 1;
+    parent.document.getElementById("resp-inv").attributes.value.value = inputstr;
+    console.log(inputstr);
 
-            console.log(inputstr);
-
-            setLoadingImg(false);
-            checkforinputchanges_input = input.val();
-            request = null;
-            
-            return inputstr;
+    setLoadingImg(false);
+    checkforinputchanges_input = input.val();
+    request = null;
+    
+    return inputstr;
 
 }
 
@@ -202,7 +202,6 @@ function updateMinHeight() {
 }
 
 function checkForInputChanges() {
-
     if (request != null)
         return;
 
@@ -301,6 +300,8 @@ function makeInput(newinput) {
         setLoadingImg(false);
         input = $(newinput);
         input.attr("autocomplete", "off");
+        parent.document.getElementById("resp-inv").attributes.value.value = input.val();
+
     } catch (e) {
     }
 }
@@ -1010,3 +1011,9 @@ function plotmouseup(e) {
     }
 }
 
+function Calculator() {
+    this.response = null;
+    this.getResponse = function() {
+        return equal();
+    }
+}

@@ -394,6 +394,11 @@ ul.row li.op .btn
 {
     font-size: 0.9em;
     width: 87.5%;
+}    
+ul.row li.op2 .btn 
+{
+    font-size: 0.9em;
+    width: 87.5%;
 }      
        
 ul.row.head li .btn 
@@ -427,6 +432,8 @@ ul.row li.sp
 .btns 
 {
     height: 210px;
+    width: 360px;
+    position: center;
     overflow: hidden;
     max-width: 603px;
     margin: 0px auto;  
