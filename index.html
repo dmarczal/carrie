@@ -6,15 +6,20 @@
     <script src="js/lsystems.js"></script>
     <script src="js/jquery.lsystem.js"></script>
     <script src="js/fractal.js"></script>
-    <script src="js/calculator.js"></script>
+
     <link rel="stylesheet" href="css/layout.css" />
     <link rel="stylesheet" href="css/jquery-ui-1.8.16.custom.css" />
 
   </head>
+<body>
+  <div id="page">
+  <input type="button" id="prev" value="< Anterior">   <input type="button" id="next" value="Proximo >"> <br/>
   <div id="dialog-calc">
     <iframe id="calc-frame" visiblity="none" width="320" height="260" src="./resources/calc.html" scrolling="no" style="border: 1px solid #silver; "> 
     </iframe> 
   </div>
+	<div id="title">
+	</div>
     <div id="div_table">
       <table>
         <tr>
@@ -25,5 +30,6 @@
       </table>
     </div>
   <div id="resp-inv" value=""></div>
+</div>
   </body>
 </html>
