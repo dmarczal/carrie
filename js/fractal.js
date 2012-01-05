@@ -1,13 +1,15 @@
-	var currentExercise = 0;
+var currentExercise = 0;
 
-	var exerciseList = [
-		["Complete o exercicio do Sierpinski triangle", 5, 120, "", "F-G-G", ["F=F-G+F+G-F", "G=GG"]],
-		["Complete o exercicio do Koch Curve", 5, 90, "", "-F", ["F=F+F-F-F+F"]],
-		["Complete o exercicio do moda fuck", 5, 90, "X", "F++F++F", ["F=F-F++F-F", "X=FF"]]
-	]
+var exerciseList = [
+	["Complete o exercicio do Sierpinski triangle", 5, 120, "", "F-G-G", ["F=F-G+F+G-F", "G=GG"]],
+	["Complete o exercicio do Koch Curve", 5, 90, "", "-F", ["F=F+F-F-F+F"]],
+	["Complete o exercicio do moda fuck", 5, 90, "X", "F++F++F", ["F=F-F++F-F", "X=FF"]]
+]
 
-$(function () {
-
+jQuery.noConflict();
+     
+     // Put all your code in your document ready area
+jQuery(document).ready(function($){ 
 
 	$('input #prev').click(function() {  
 		if (currentExercise > 0) {
@@ -26,9 +28,6 @@ $(function () {
 
 	
 	loadExercise(exerciseList[currentExercise][0],exerciseList[currentExercise][1],exerciseList[currentExercise][2],exerciseList[currentExercise][3],exerciseList[currentExercise][4],exerciseList[currentExercise][5]);
-
-
-
 	function loadExercise(title, rows, angle, p1, p2, p3) {
 		$("div#div_table table").find("tr:gt(0)").remove();
 		for (var i = 0; i < rows; i++) {
@@ -76,4 +75,86 @@ $(function () {
 		    last = $(this);
 		    $( "#dialog-calc" ).dialog( "open");
 		});
+});
+
+var Fractal = Class.create(LSystems, {
+	initialize:  function(name, angle, axiom, rules, width, height) {
+		this.setName(name);
+		this.setAngle(angle);
+		this.setAxiom(axiom);
+		this.setRules(rules);
+		this.setWidth(width);
+		this.setHeight(height);
+		this.it = 0;
+	},
+
+
+
+	iterate: function() {
+		var row = $('<tr>');
+		var iteration = $('<td>' + this.getIteration() + '</td>');
+		var fractal = $('<td>');
+		var side = $('<td>');
+		var canvas = $('<canvas id="canvas_' + this.getName() + '_' + this.getIteration() + 
+					'" width="' + this.getWidth()  +'" height="' + this.getHeight() + '" />');
+		row.append(iteration, fractal, side);
+		$('table').append(row);
+		fractal.append(canvas);
+		canvas.lsystem(this.getIteration(), this.getAngle(), "", this.getAxiom(), this.getRules());
+		
+		this.it++;
+
+	},
+
+	setName:  function(name) {
+		this.name = name;
+	},
+	
+	setAngle: function(angle) {
+		this.angle = angle;
+	},
+
+	setAxiom: function(axiom) {
+		this.axiom = axiom;
+	},
+	
+	setRules: function(rules) {
+		this.rules = rules;
+	},
+
+	setWidth: function(width) {
+		this.width = width;
+	},
+
+	setHeight: function(height) {
+		this.height = height;
+	},
+
+	getName: function() {
+		return this.name;
+	},
+
+	getAngle: function() {
+		return this.angle;
+	},
+
+	getAxiom: function() {
+		return this.axiom;
+	},
+
+	getRules: function() {
+		return this.rules;
+	},
+
+	getWidth: function() {
+		return this.width
+	},
+
+	getHeight: function() {
+		return this.height;
+	},
+		
+	getIteration: function() {
+		return this.it;
+	}
 });
