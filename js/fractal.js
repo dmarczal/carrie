@@ -6,9 +6,8 @@ var exerciseList = [
 	["Complete o exercicio do moda fuck", 5, 90, "X", "F++F++F", ["F=F-F++F-F", "X=FF"]]
 ]
 
-jQuery.noConflict();
-     
-     // Put all your code in your document ready area
+
+var $j = jQuery.noConflict();
 jQuery(document).ready(function($){ 
 
 	$('input #prev').click(function() {  
@@ -91,14 +90,14 @@ var Fractal = Class.create(LSystems, {
 
 
 	iterate: function() {
-		var row = $('<tr>');
-		var iteration = $('<td>' + this.getIteration() + '</td>');
-		var fractal = $('<td>');
-		var side = $('<td>');
-		var canvas = $('<canvas id="canvas_' + this.getName() + '_' + this.getIteration() + 
+		var row = $j('<tr>');
+		var iteration = $j('<td>' + this.getIteration() + '</td>');
+		var fractal = $j('<td>');
+		var side = $j('<td>');
+		var canvas = $j('<canvas id="canvas_' + this.getName() + '_' + this.getIteration() + 
 					'" width="' + this.getWidth()  +'" height="' + this.getHeight() + '" />');
 		row.append(iteration, fractal, side);
-		$('table').append(row);
+		$j('table').append(row);
 		fractal.append(canvas);
 		canvas.lsystem(this.getIteration(), this.getAngle(), "", this.getAxiom(), this.getRules());
 		
